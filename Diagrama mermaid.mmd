@@ -1,0 +1,128 @@
+
+erDiagram
+
+    %% MODELO PROPOSTO PARA O UPA MONITOR
+    %% Dados agregados do portal foram diferenciados das entidades propostas.
+    %% Relacionamento identificador: FK compoe a PK da entidade dependente.
+    %% Relacionamento nao identificador: FK nao compoe a PK da entidade dependente.
+
+    UPA {
+        int id_upa PK
+        string nome
+        string endereco
+        string status_operacional
+    }
+
+    SETOR {
+        int id_setor PK
+        int id_upa FK
+        string nome
+        string descricao
+        string status
+    }
+
+    PROFISSIONAL {
+        int id_profissional PK
+        int id_setor FK
+        string nome
+        string registro_profissional UK
+        string especialidade
+    }
+
+    PACIENTE {
+        int id_paciente PK
+        date data_nascimento
+        string sexo
+        string identificador UK
+    }
+
+    ATENDIMENTO {
+        int id_atendimento PK
+        int id_paciente FK
+        int id_upa FK
+        int id_setor FK
+        date data_chegada
+        time hora_chegada
+        date data_encerramento
+        time hora_encerramento
+        string status_atendimento
+    }
+
+    FILA {
+        int id_fila PK
+        int id_setor FK
+        string nome
+        string tipo_fila
+        string status
+    }
+
+    FILA_ATENDIMENTO {
+        int id_fila PK, FK
+        int id_atendimento PK, FK
+        date data_entrada PK
+        time hora_entrada PK
+        date data_saida
+        time hora_saida
+        string status
+    }
+
+    CLASSIFICACAO_RISCO {
+        int id_classificacao PK
+        string nome
+        int nivel_prioridade
+        string descricao
+        int tempo_referencia_minutos
+    }
+
+    TRIAGEM {
+        int id_triagem PK
+        int id_atendimento FK
+        int id_classificacao FK
+        int id_profissional FK
+        date data_triagem
+        time hora_triagem
+        string observacao
+    }
+
+    MONITORAMENTO {
+        int id_monitoramento PK
+        int id_upa FK
+        date data_coleta
+        time hora_coleta
+        string status_conexao
+    }
+
+    MEDICAO {
+        int id_medicao PK
+        int id_monitoramento FK
+        int id_setor FK
+        string tipo_indicador
+        decimal valor
+        string unidade_medida
+        date data_medicao
+        time hora_medicao
+    }
+
+    %% Estrutura organizacional
+    UPA ||..o{ SETOR : possui
+    SETOR ||..o{ PROFISSIONAL : aloca
+
+    %% Fluxo de pacientes
+    PACIENTE ||..o{ ATENDIMENTO : possui
+    UPA ||..o{ ATENDIMENTO : recebe
+    SETOR o|..o{ ATENDIMENTO : realiza
+
+    %% Controle de filas e historico de espera
+    SETOR ||..o{ FILA : organiza
+    FILA ||--o{ FILA_ATENDIMENTO : registra
+    ATENDIMENTO ||--o{ FILA_ATENDIMENTO : participa
+
+    %% Classificacao de risco e triagem
+    ATENDIMENTO ||..o{ TRIAGEM : recebe
+    CLASSIFICACAO_RISCO ||..o{ TRIAGEM : classifica
+    PROFISSIONAL ||..o{ TRIAGEM : realiza
+
+    %% Monitoramento e indicadores
+    UPA ||..o{ MONITORAMENTO : registra
+    MONITORAMENTO ||..o{ MEDICAO : contem
+    SETOR o|..o{ MEDICAO : detalha

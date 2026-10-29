@@ -1,0 +1,40 @@
+Documentação Técnica — Diagrama ER do UPA Monitor
+1. Entidades
+UPA: identifica as unidades de pronto atendimento e seu status operacional.
+SETOR: representa os setores vinculados a uma UPA.
+PROFISSIONAL: armazena os dados dos profissionais de saúde e sua especialidade.
+PACIENTE: representa os pacientes por meio de um identificador interno.
+ATENDIMENTO: registra os atendimentos, horários, status, paciente, unidade e setor.
+FILA: representa as filas de espera associadas aos setores.
+FILA_ATENDIMENTO: registra a participação dos atendimentos nas filas, incluindo horários de entrada e saída.
+CLASSIFICACAO_RISCO: armazena as categorias e os níveis de prioridade clínica.
+TRIAGEM: registra a classificação de risco atribuída ao atendimento e o profissional responsável.
+MONITORAMENTO: registra as coletas de dados referentes a cada UPA.
+MEDICAO: armazena os valores dos indicadores associados a cada monitoramento.
+2. Relacionamentos
+Uma UPA possui vários setores e pode receber vários atendimentos.
+Um setor pode ter vários profissionais, filas e atendimentos.
+Um paciente pode possuir vários atendimentos.
+Um atendimento pode participar de várias filas ao longo do tempo, por meio de FILA_ATENDIMENTO.
+Um atendimento pode possuir registros de triagem.
+Uma classificação de risco pode ser utilizada em várias triagens.
+Um profissional pode realizar várias triagens.
+Uma UPA pode possuir vários registros de monitoramento.
+Um monitoramento pode conter várias medições.
+3. Chaves e tipos de dados
+PK (Primary Key): identifica exclusivamente cada registro.
+FK (Foreign Key): estabelece relacionamentos entre entidades.
+UK (Unique Key): garante a unicidade de um atributo.
+int: números inteiros.
+string: textos.
+date: datas.
+time: horários.
+decimal: valores numéricos com casas decimais.
+
+A entidade FILA_ATENDIMENTO utiliza uma chave primária composta por id_fila, id_atendimento, data_entrada e hora_entrada.
+
+4. Regras de modelagem
+
+O modelo separa os dados cadastrais, os registros de atendimento e os indicadores de monitoramento para reduzir redundâncias e facilitar consultas. A entidade MEDICAO permite armazenar valores históricos dos indicadores.
+
+As entidades individuais de pacientes, profissionais e triagens são propostas de modelagem e não representam, necessariamente, dados disponibilizados publicamente pelo UPA Monitor.

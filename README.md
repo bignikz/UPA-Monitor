@@ -1,3 +1,6 @@
+## INTEGRANTES DO GRUPO: GILVAN FELIPE, JUDSON GABRIEL, NICOLAS FRANCO, THALES MIGUEL
+
+
 ## Justificativas Técnicas
 
 Esta seção apresenta as decisões de modelagem e implementação adotadas no projeto UPA Monitor, explicando como elas contribuem para a integridade dos dados, a confiabilidade dos indicadores e a eficiência das consultas SQL.
